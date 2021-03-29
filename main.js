@@ -9,7 +9,11 @@ function createWindow() {
     }
   })
 
-  win.loadFile('index.html')
+   // Load the index.html of the app.
+   win.loadFile('./index.html')
+  
+   // Open the DevTools.
+   win.webContents.openDevTools()
 }
 
 
