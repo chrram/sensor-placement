@@ -2,15 +2,63 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Hello World!</title>
+    <title>Sensorplacement</title>
     <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
     <style>
+
+        body{
+            background-color:rgb(13, 25, 194);
+        }
         h1 {color:gray;}
+        .navbar {
+            background-color:rgb(13, 25, 194);
+            color:white;
+        }
+
+        .frame{
+            margin-top:60px;
+            border:1px solid white;
+            margin: 0px auto;
+            width:600px;
+            height:600px;
+            text-align: center;
+            background-color: white;
+            border-radius:20px;
+        }
+        
     </style>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
-<body style="background: rgb(0, 0, 0);">
-    <h1>Sensor placement project</h1>
-    <p> Drop stuff here</p>
+<body style="background-color:rgb(13, 25, 194);">
+
+    <!-- NAVBAR -->
+    <nav class="navbar navbar-expand-md ">
+        <div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Icon</a>
+                </li>
+            </ul>
+        </div>
+        <div class="mx-auto order-0">
+            <a class="navbar-brand mx-auto" href="#">Home</a>
+        </div>
+        <div class="mx-auto order-0">
+            <a class="navbar-brand mx-auto" href="#">Features</a>
+        </div>
+        <div class="mx-auto order-0">
+            <a class="navbar-brand mx-auto" href="#">FAQ</a>
+        </div>
+        <div class="navbar w-100 order-3 ">
+
+        </div>
+    </nav>
+    
+    <!-- FRAME FOR DRAG AND DROP -->
+    <div class="frame">
+        
+    </div>
+    
     <script src="index.js"></script>
 </body>
 </html>
