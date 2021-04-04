@@ -41,7 +41,7 @@
 
         <!-- FRAME FOR DRAG AND DROP -->
         <div class="frame">
-            <p id="filename" style="font-weight:bold; margin-left:30px;">File name: </p>
+            <p id="filename" style="font-weight:bold; margin-left:30px; text-align:left;">Filename: </p>
             <!-- WHERE WE SHOW THE PDF. -->
         </div>
 
@@ -96,6 +96,9 @@
             const { ipcRenderer, remote, dialog } = require('electron')
             const $ = require("jquery")
 
+            // CODE THAT GETS THE FILENAME OF THE PDF AND CHANGES THE #filename TO THIS FILENAME.
+            $("#filename").html("Filename: " + localStorage.getItem('filepath').split("\\")[localStorage.getItem('filepath').split("\\").length -1]);
+
             // CODE FOR WHEN THE USER HITS OPTIMIZATION BUTTON IN THE OPTIMIZATION UI.
             document.querySelector('#optimize').addEventListener('click', () => {
 
@@ -127,7 +130,6 @@
                         console.log("TOGGLE DONE");
                     });
                 });
-
             })
 
 

@@ -9,14 +9,13 @@ function createWindow() {
       contextIsolation: false,
     }
   })
-  
+
   // Load the index.html of the app.
   win.loadFile('./index.html')
 
   // Open the DevTools.
   win.webContents.openDevTools()
 }
-
 
 ipcMain.on("upload", (event, arg) => {
 
@@ -30,11 +29,11 @@ ipcMain.on("upload", (event, arg) => {
     properties: ['showHiddenFiles'],
     message: 'This message will only be shown on macOS'
   };
- 
+
   dialog.showOpenDialog(null, options
-    ).then(result => {
-      
-      return result.canceled || event.sender.send("btnclick-task-finished", result.filePaths)
+  ).then(result => {
+
+    return result.canceled || event.sender.send("upload_finished", result.filePaths)
 
   }).catch(err => {
     // IF SOME ERROR OCCURED.
@@ -72,5 +71,3 @@ app.on('activate', () => {
     createWindow()
   }
 })
-
-

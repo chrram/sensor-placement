@@ -62,15 +62,18 @@
 
             // WHEN YOU CLICK THE UPLOAD BUTTON
             document.querySelector('#upload').addEventListener('click', () => {
-                ipcRenderer.send("upload");                
+                ipcRenderer.send("upload")
             })
 
-            ipcRenderer.on('btnclick-task-finished', function (event, filepath) {
+            ipcRenderer.on('upload_finished', function (event, filepath) {
 
                 // WHEN THE FILEPATH TO THE PDF HAS BEEN ACCEPTED.
-                console.log(filepath, "The filepath to the PDF.");
+                console.log(filepath, "The filepath to the PDF.")
 
-                //TODO: WE NOW NEED TO SEND THE USER TO THE NEXT PAGE FOR OPTIMIZATION.
+                // SETS THE STORAGE TO THE FILEPATH SO THAT WE CAN ACCESS IT IN THE NEXT PAGE WITHIN THE APP.
+                localStorage.setItem('filepath', filepath);
+                window.location.replace("./optimize.html")
+
             });
         
         });
