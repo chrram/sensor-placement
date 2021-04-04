@@ -5,45 +5,8 @@
     <meta charset="UTF-8">
     <title>Sensor Optimization</title>
     <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
-    <style>
-        body {
-            background-color: rgb(13, 25, 194);
-        }
 
-        h1 {
-            color: gray;
-        }
-
-        .navbar {
-            background-color: rgb(13, 25, 194);
-            color: white;
-        }
-
-        .frame {
-            margin-top: 60px;
-            border: 1px solid white;
-            margin: 0px auto;
-            width: 600px;
-            height: 600px;
-
-            background-color: white;
-            border-radius: 20px;
-            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-        }
-
-        .optimizationFrame {
-            margin-top: 60px;
-            border: 1px solid white;
-            margin: 30px auto;
-            width: 600px;
-            
-            
-            text-align: center;
-            background-color: white;
-            border-radius: 20px;
-            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-        }
-    </style>
+    <link rel="stylesheet" href="./style.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
@@ -84,50 +47,95 @@
 
         <!-- BUTTONS FOR EITHER OPTIMIZING OR TOGGLING THE SETTINGS -->
         <div id="optimizationButtons" style="text-align: center; margin-top: 30px; display: block;">
-            <button class="btn btn-primary"> Optimize </button>
+            <button id="optimize" class="btn btn-primary"> Optimize </button>
             <button id="settings" class="btn btn-light">icon</button>
         </div>
 
 
         <!-- FRAME FOR THE USER TO CHANGE OPTIMIZATION SETTINGS -->
         <div class="optimizationFrame" style="display: none;">
-            <form style="margin-top: 30px;padding:90px;">
+            <div class="form-horizontal" style="margin-top: 30px;padding:90px;">
 
-                <div class="form-group row">
-                    <label class="col-form-label">Number of Sensors</label>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" placeholder="Number of Sensors">
+
+                <div class="row mb-4">
+                    <label for="inputEmail3" class="col-sm-4 col-form-label">Number of Sensors:</label>
+                    <div class="col-sm-5">
+                        <input type="email" class="form-control" id="amount">
                     </div>
                 </div>
 
-                <div class="form-group row">
-                    <label class="col-form-label">Sensor Type</label>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" placeholder="Sensor Type">
+                <div class="row mb-4">
+                    <label for="inputPassword3" class="col-sm-4 col-form-label">Sensor Type:</label>
+                    <div class="col-sm-5">
+                        <input type="text" class="form-control" id="type">
                     </div>
                 </div>
 
-                <div class="form-group row">
-                    <label class="col-form-label">Areas to Ignore</label>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" placeholder="Areas to Ignore">
+                <div class="row mb-4">
+                    <label for="inputPassword3" class="col-sm-4 col-form-label">Areas to Ignore:</label>
+                    <div class="col-sm-5">
+                        <input type="text" class="form-control" id="areas">
                     </div>
                 </div>
 
-
-                <button class="btn btn-primary">Save changes</button>
-            </form>
+                <button id="save_settings" class="btn btn-primary">Save Changes</button>
+            </div>
         </div>
-        
-        
-        <!-- <div style="text-align: center;">
-            <h4 style="color:green; display:none;"> Optimized!</h4>
-        </div> -->
-        
+
+        <div id="optimized_complete" style="text-align: center; display: none;">
+            <h4 style="color:green; margin-top:30px;"> Optimized!</h4>
+        </div>
 
     </div>
 
     <script src="index.js"></script>
+    <script>
+
+        document.addEventListener("DOMContentLoaded", function (event) {
+
+            const { ipcRenderer, remote, dialog } = require('electron')
+            const $ = require("jquery")
+
+            // CODE FOR WHEN THE USER HITS OPTIMIZATION BUTTON IN THE OPTIMIZATION UI.
+            document.querySelector('#optimize').addEventListener('click', () => {
+
+                $("#optimizationButtons").hide("fast", function () {
+                    $("#optimized_complete").show("slow", function () {
+                        console.log("TOGGLE DONE");
+                    });
+                });
+            })
+
+            // CODE FOR WHEN THE USER SAVES THE SETTINGS FOR THE OPTIMIZATION
+            document.querySelector('#save_settings').addEventListener('click', () => {
+
+                // HIDES THE OPTIMIZATION SETTINGS AND SHOWS THE BUTTONS AGAIN.
+                $(".optimizationFrame").hide("slow", function () {
+                    $("#optimizationButtons").show("slow", function () {
+                        console.log("TOGGLE DONE");
+                    });
+                });
+
+            })
+
+            // CODE FOR WHEN THE USER HITS THE SETTINGS BUTTON IN THE OPTIMIZATION UI.
+            document.querySelector('#settings').addEventListener('click', () => {
+
+                // HIDES THE BUTTONS AND SHOWS THE OPTIMIZATION BOX INSTEAD.
+                $("#optimizationButtons").hide("fast", function () {
+                    $(".optimizationFrame").show("slow", function () {
+                        console.log("TOGGLE DONE");
+                    });
+                });
+
+            })
+
+
+        });
+
+
+
+    </script>
 </body>
 
 </html>

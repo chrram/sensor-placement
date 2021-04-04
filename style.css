@@ -1,0 +1,41 @@
+body{
+    background-color:rgb(13, 25, 194);
+}
+h1 {color:gray;}
+.navbar {
+    background-color:rgb(13, 25, 194);
+    color:white;
+}
+
+.frame{
+    margin-top:60px;
+    border:1px solid white;
+    margin: 0px auto;
+    width:900px;
+    height:600px;
+    text-align: center;
+    background-color: white;
+    border-radius:20px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+button a, button a:hover{
+    color:white;
+}
+
+.uploadimage {
+    margin-bottom:30px;
+}
+
+.optimizationFrame {
+    margin-top: 60px;
+    border: 1px solid white;
+    margin: 30px auto;
+    width: 900px;
+    
+    
+    text-align: center;
+    background-color: white;
+    border-radius: 20px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}

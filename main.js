@@ -1,4 +1,4 @@
-const { app, BrowserWindow, Menu, MenuItem, ipcMain } = require('electron')
+const { app, BrowserWindow, Menu, MenuItem, ipcMain, dialog } = require('electron')
 
 function createWindow() {
   const win = new BrowserWindow({
@@ -9,7 +9,7 @@ function createWindow() {
       contextIsolation: false,
     }
   })
-
+  
   // Load the index.html of the app.
   win.loadFile('./index.html')
 
@@ -18,26 +18,29 @@ function createWindow() {
 }
 
 
-ipcMain.on("upload", function (event, arg) {
-  //create new window
-  let newWindow = new BrowserWindow({
-    width: 450,
-    height: 300,
-    show: true,
-    webPreferences: {
-      nodeIntegration: true,
-      contextIsolation: false,
-    }
-  });  // create a new window
-  
-  newWindow.loadFile('./optimize.html')
-  newWindow.webContents.openDevTools()
-  // inform the render process that the assigned task finished. Show a message in html
-  // event.sender.send in ipcMain will return the reply to renderprocess
- 
-  event.sender.send("btnclick-task-finished", "yes");
-});
+ipcMain.on("upload", (event, arg) => {
 
+  const options = {
+    title: 'Open a PDF file',
+    defaultPath: '/path/to/something/',
+    buttonLabel: 'OK',
+    filters: [
+      { name: 'pdf', extensions: ['pdf'] }
+    ],
+    properties: ['showHiddenFiles'],
+    message: 'This message will only be shown on macOS'
+  };
+ 
+  dialog.showOpenDialog(null, options
+    ).then(result => {
+      
+      return result.canceled || event.sender.send("btnclick-task-finished", result.filePaths)
+
+  }).catch(err => {
+    // IF SOME ERROR OCCURED.
+    console.log(err)
+  })
+});
 
 const menu = [
   {

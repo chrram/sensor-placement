@@ -1,43 +1,17 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="UTF-8">
     <title>Sensor Optimization</title>
     <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
-    <style>
+    <link rel="stylesheet" href="./style.css">
 
-        body{
-            background-color:rgb(13, 25, 194);
-        }
-        h1 {color:gray;}
-        .navbar {
-            background-color:rgb(13, 25, 194);
-            color:white;
-        }
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
-        .frame{
-            margin-top:60px;
-            border:1px solid white;
-            margin: 0px auto;
-            width:900px;
-            height:600px;
-            text-align: center;
-            background-color: white;
-            border-radius:20px;
-            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-        }
-
-        button a, button a:hover{
-            color:white;
-        }
-
-        .uploadimage {
-            margin-bottom:30px;
-        }
-        
-    </style>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
+
 <body>
 
     <div style="background-color:rgb(13, 25, 194); height:580px;">
@@ -65,19 +39,43 @@
 
             </div>
         </nav>
-        
+
         <!-- FRAME FOR DRAG AND DROP -->
         <div class="frame">
             <div style="margin-top:150px;">
                 <img src="./upload.png" width="150" height="150" class="uploadimage" />
                 <h3>Upload Your Building In Plan</h3>
                 <p style="font-weight:bold;">Format: PDF only</p>
-                <button id="upload" type="button" class="btn btn-primary"><a href="./optimize.html">Browse File</a></button>
+                <!-- <button id="upload" type="button" class="btn btn-primary"><a href="./optimize.html">Browse File</a></button> -->
+                <button id="upload" type="button" class="btn btn-primary">Browse files</button>
             </div>
         </div>
-    
+
     </div>
-    
+
     <script src="index.js"></script>
+    <script>
+        const { ipcRenderer, remote } = require('electron')
+        const $ = require("jquery")
+
+        document.addEventListener("DOMContentLoaded", function (event) {
+
+            // WHEN YOU CLICK THE UPLOAD BUTTON
+            document.querySelector('#upload').addEventListener('click', () => {
+                ipcRenderer.send("upload");                
+            })
+
+            ipcRenderer.on('btnclick-task-finished', function (event, filepath) {
+
+                // WHEN THE FILEPATH TO THE PDF HAS BEEN ACCEPTED.
+                console.log(filepath, "The filepath to the PDF.");
+
+                //TODO: WE NOW NEED TO SEND THE USER TO THE NEXT PAGE FOR OPTIMIZATION.
+            });
+        
+        });
+
+    </script>
 </body>
+
 </html>
