@@ -43,6 +43,11 @@
         <div class="frame">
             <p id="filename" style="font-weight:bold; margin-left:30px; text-align:left;">Filename: </p>
             <!-- WHERE WE SHOW THE PDF. -->
+            <div id="pdf_display">
+                
+            </div>
+            
+
         </div>
 
         <!-- BUTTONS FOR EITHER OPTIMIZING OR TOGGLING THE SETTINGS -->
@@ -98,6 +103,9 @@
 
             // CODE THAT GETS THE FILENAME OF THE PDF AND CHANGES THE #filename TO THIS FILENAME.
             $("#filename").html("Filename: " + localStorage.getItem('filepath').split("\\")[localStorage.getItem('filepath').split("\\").length -1]);
+
+            // CODE THAT APPENDS THE PDF TO THE "pdf_display" DIV.
+            $( "#pdf_display" ).append( "<embed src='"+localStorage.getItem('filepath')+"#toolbar=0&navpanes=0&scrollbar=0' type='application/pdf' width='100%' height='500px' />" );
 
             // CODE FOR WHEN THE USER HITS OPTIMIZATION BUTTON IN THE OPTIMIZATION UI.
             document.querySelector('#optimize').addEventListener('click', () => {
