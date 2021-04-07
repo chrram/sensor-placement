@@ -63,23 +63,26 @@
 
 
                 <div class="row mb-4">
-                    <label for="inputEmail3" class="col-sm-4 col-form-label">Number of Sensors:</label>
+                    <label class="col-sm-4 col-form-label">Number of Sensors:</label>
                     <div class="col-sm-5">
-                        <input type="email" class="form-control" id="amount">
+                        <input type="text" class="form-control" id="amount">
+                        <p id="amount_error" style="font-size:13px; color:red; display:none;">The number of sensors is not a number.</p>
                     </div>
                 </div>
 
                 <div class="row mb-4">
-                    <label for="inputPassword3" class="col-sm-4 col-form-label">Sensor Type:</label>
+                    <label class="col-sm-4 col-form-label">Sensor Type:</label>
                     <div class="col-sm-5">
                         <input type="text" class="form-control" id="type">
+                        <p id="type_error" style="font-size:13px; color:red; display:none;">The types of sensor is not a number.</p>
                     </div>
                 </div>
 
                 <div class="row mb-4">
-                    <label for="inputPassword3" class="col-sm-4 col-form-label">Areas to Ignore:</label>
+                    <label class="col-sm-4 col-form-label">Areas to Ignore:</label>
                     <div class="col-sm-5">
                         <input type="text" class="form-control" id="areas">
+                        <p id="areas_error" style="font-size:13px; color:red; display:none;">The areas to ignore is not a number.</p>
                     </div>
                 </div>
 
@@ -110,6 +113,12 @@
             // CODE FOR WHEN THE USER HITS OPTIMIZATION BUTTON IN THE OPTIMIZATION UI.
             document.querySelector('#optimize').addEventListener('click', () => {
 
+                const errors = checkUserInput()
+
+                if ((!$("#optimizationButtons").is(":visible") && errors)||errors){
+                    return $(".optimizationFrame").show()
+                }
+
                 $("#optimizationButtons").hide("fast", function () {
                     $("#optimized_complete").show("slow", function () {
                         console.log("TOGGLE DONE");
@@ -126,7 +135,6 @@
                         console.log("TOGGLE DONE");
                     });
                 });
-
             })
 
             // CODE FOR WHEN THE USER HITS THE SETTINGS BUTTON IN THE OPTIMIZATION UI.
@@ -140,6 +148,36 @@
                 });
             })
 
+            // CHECKS THE USER INPUT FOR ERRORS, IF THERE ARE ERRORS, IT 
+            // SHOWS THE ERRORS, OTHERWISE IT HIDES THEM.
+            // TODO: Improve this shitty function.. It looks like a catastrophy.
+            const checkUserInput = () =>{
+
+                let errors = 0
+
+                if(!$( "#amount" ).val().match(/^\d+$/)){
+                    $("#amount_error").show()
+                    errors = 1
+                } else{
+                    $("#amount_error").hide()
+                }
+
+                if(!$( "#type" ).val().match(/^\d+$/)){
+                    $("#type_error").show()
+                    errors = 1
+                } else {
+                    $("#type_error").hide()
+                }
+                
+                if(!$( "#areas" ).val().match(/^\d+$/)){
+                    $("#areas_error").show()
+                    errors = 1
+                } else {
+                    $("#areas_error").hide()
+                }
+
+                return errors
+            }
 
         });
 
