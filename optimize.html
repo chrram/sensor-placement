@@ -62,19 +62,19 @@
             <div class="form-horizontal" style="margin-top: 30px;padding:90px;">
 
 
-                <div class="row mb-4">
+                <!-- <div class="row mb-4">
                     <label class="col-sm-4 col-form-label">Number of Sensors:</label>
                     <div class="col-sm-5">
                         <input type="text" class="form-control" id="amount">
                         <p id="amount_error" style="font-size:13px; color:red; display:none;">The number of sensors is not a number.</p>
                     </div>
-                </div>
+                </div> -->
 
                 <div class="row mb-4">
-                    <label class="col-sm-4 col-form-label">Sensor Type:</label>
+                    <label class="col-sm-4 col-form-label">Angle of vision:</label>
                     <div class="col-sm-5">
-                        <input type="text" class="form-control" id="type">
-                        <p id="type_error" style="font-size:13px; color:red; display:none;">The types of sensor is not a number.</p>
+                        <input type="text" class="form-control" id="angles">
+                        <p id="angles_error" style="font-size:13px; color:red; display:none;">The angle of vision must be a number between 1-180.</p>
                     </div>
                 </div>
 
@@ -83,6 +83,22 @@
                     <div class="col-sm-5">
                         <input type="text" class="form-control" id="areas">
                         <p id="areas_error" style="font-size:13px; color:red; display:none;">The areas to ignore is not a number.</p>
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <label class="col-sm-4 col-form-label">Height under the ceiling</label>
+                    <div class="col-sm-5">
+                        <input type="text" class="form-control" id="heightCeiling">
+                        <p id="heightCeiling_error" style="font-size:13px; color:red; display:none;">Height under the ceiling is not a number.</p>
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <label class="col-sm-4 col-form-label">Height of detection</label>
+                    <div class="col-sm-5">
+                        <input type="text" class="form-control" id="heightDetection">
+                        <p id="heightDetection_error" style="font-size:13px; color:red; display:none;">Height of detection is not a number.</p>
                     </div>
                 </div>
 
@@ -155,18 +171,20 @@
 
                 let errors = 0
 
-                if(!$( "#amount" ).val().match(/^\d+$/)){
-                    $("#amount_error").show()
-                    errors = 1
-                } else{
-                    $("#amount_error").hide()
-                }
+                // if(!$( "#amount" ).val().match(/^\d+$/)){
+                //     $("#amount_error").show()
+                //     errors = 1
+                // } else{
+                //     $("#amount_error").hide()
+                // }
 
-                if(!$( "#type" ).val().match(/^\d+$/)){
-                    $("#type_error").show()
+                console.log((parseInt($( "#angles" ).val()) > 0) && (parseInt($( "#angles" ).val()) <= 180), "Tetsss")
+
+                if((!$( "#angles" ).val().match(/^\d+$/)) || !((parseInt($( "#angles" ).val()) > 0) && (parseInt($( "#angles" ).val()) <= 180)) ){
+                    $("#angles_error").show()
                     errors = 1
                 } else {
-                    $("#type_error").hide()
+                    $("#angles_error").hide()
                 }
                 
                 if(!$( "#areas" ).val().match(/^\d+$/)){
@@ -175,6 +193,22 @@
                 } else {
                     $("#areas_error").hide()
                 }
+
+                if(!$( "#heightCeiling" ).val().match(/^\d+(\.\d{1,2})?$/)){
+                    $("#heightCeiling_error").show()
+                    errors = 1
+                } else {
+                    $("#heightCeiling_error").hide()
+                }
+
+                if(!$( "#heightDetection" ).val().match(/^\d+(\.\d{1,2})?$/)){
+                    $("#heightDetection_error").show()
+                    errors = 1
+                } else {
+                    $("#heightDetection_error").hide()
+                }
+
+                
 
                 return errors
             }
