@@ -1,4 +1,5 @@
-const { app, BrowserWindow, Menu, MenuItem, ipcMain, dialog } = require('electron')
+const { app, BrowserWindow, Menu, MenuItem, ipcMain, dialog, net, clipboard, Tray } = require('electron')
+let fs = require('fs');
 
 function createWindow() {
   const win = new BrowserWindow({
@@ -40,6 +41,48 @@ ipcMain.on("upload", (event, arg) => {
     console.log(err)
   })
 });
+
+
+ipcMain.on("api_call", (event, arg) => {
+  console.log("api call here");
+
+
+  const request = net.request({
+    method: 'GET',
+    protocol: 'http:',
+    hostname: 'httpbin.org',
+    path: '/image/png',
+    // redirect: 'follow'
+  });
+
+  request.on('response', (response) => {
+    console.log(`STATUS: ${response} ${response.statusCode}`);
+    console.log(`HEADERS: ${JSON.stringify(response.headers)}`);
+
+    response.on('data', (chunk) => {
+      console.log(`BODY: ${chunk}`)
+    });
+  });
+  request.on('finish', () => {
+
+    console.log("finished call.")
+    event.sender.send("call_finished")
+
+  });
+  request.on('abort', () => {
+    console.log('Request is Aborted')
+  });
+  request.on('error', (error) => {
+    console.log(`ERROR: ${JSON.stringify(error)}`)
+  });
+  request.on('close', (error) => {
+    console.log('Last Transaction has occured')
+  });
+  request.setHeader('Content-Type', 'application/json');
+  request.end();
+
+});
+
 
 const menu = [
   {

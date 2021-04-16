@@ -87,7 +87,7 @@
                 </div>
 
                 <div class="row mb-4">
-                    <label class="col-sm-4 col-form-label">Height under the ceiling</label>
+                    <label class="col-sm-4 col-form-label">Height under the ceiling (Meters):</label>
                     <div class="col-sm-5">
                         <input type="text" class="form-control" id="heightCeiling">
                         <p id="heightCeiling_error" style="font-size:13px; color:red; display:none;">Height under the ceiling is not a number.</p>
@@ -95,7 +95,7 @@
                 </div>
 
                 <div class="row mb-4">
-                    <label class="col-sm-4 col-form-label">Height of detection</label>
+                    <label class="col-sm-4 col-form-label">Height of detection (Meters):</label>
                     <div class="col-sm-5">
                         <input type="text" class="form-control" id="heightDetection">
                         <p id="heightDetection_error" style="font-size:13px; color:red; display:none;">Height of detection is not a number.</p>
@@ -131,16 +131,22 @@
 
                 const errors = checkUserInput()
 
-                if ((!$("#optimizationButtons").is(":visible") && errors)||errors){
-                    return $(".optimizationFrame").show()
-                }
+                // if ((!$("#optimizationButtons").is(":visible") && errors)||errors){
+                //     return $(".optimizationFrame").show()
+                // }
 
-                $("#optimizationButtons").hide("fast", function () {
-                    $("#optimized_complete").show("slow", function () {
-                        console.log("TOGGLE DONE");
-                    });
-                });
+                ipcRenderer.send("api_call")
+
+                // $("#optimizationButtons").hide("fast", function () {
+                //     $("#optimized_complete").show("slow", function () {
+                //         console.log("TOGGLE DONE");
+                //     });
+                // });
             })
+
+            ipcRenderer.on('call_finished', function (event, filepath) {
+                console.log("call finished");
+            });
 
             // CODE FOR WHEN THE USER SAVES THE SETTINGS FOR THE OPTIMIZATION
             document.querySelector('#save_settings').addEventListener('click', () => {
@@ -170,15 +176,6 @@
             const checkUserInput = () =>{
 
                 let errors = 0
-
-                // if(!$( "#amount" ).val().match(/^\d+$/)){
-                //     $("#amount_error").show()
-                //     errors = 1
-                // } else{
-                //     $("#amount_error").hide()
-                // }
-
-                console.log((parseInt($( "#angles" ).val()) > 0) && (parseInt($( "#angles" ).val()) <= 180), "Tetsss")
 
                 if((!$( "#angles" ).val().match(/^\d+$/)) || !((parseInt($( "#angles" ).val()) > 0) && (parseInt($( "#angles" ).val()) <= 180)) ){
                     $("#angles_error").show()
