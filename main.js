@@ -1,5 +1,5 @@
 const { app, BrowserWindow, Menu, MenuItem, ipcMain, dialog, net, clipboard, Tray } = require('electron')
-let fs = require('fs');
+const {download} = require('electron-dl');
 
 function createWindow() {
   const win = new BrowserWindow({
@@ -43,44 +43,52 @@ ipcMain.on("upload", (event, arg) => {
 });
 
 
-ipcMain.on("api_call", (event, arg) => {
-  console.log("api call here");
+// ipcMain.on("api_call", (event, arg) => {
+//   console.log("api call here");
 
+//   console.log(await download(win, url));
 
-  const request = net.request({
-    method: 'GET',
-    protocol: 'http:',
-    hostname: 'httpbin.org',
-    path: '/image/png',
-    // redirect: 'follow'
-  });
+//   const request = net.request({
+//     method: 'GET',
+//     protocol: 'http:',
+//     hostname: 'httpbin.org',
+//     path: '/image/png',
+//     // redirect: 'follow'
+//   });
 
-  request.on('response', (response) => {
-    console.log(`STATUS: ${response} ${response.statusCode}`);
-    console.log(`HEADERS: ${JSON.stringify(response.headers)}`);
+//   request.on('response', (response) => {
+//     console.log(`STATUS: ${response} ${response.statusCode}`);
+//     console.log(`HEADERS: ${JSON.stringify(response.headers)}`);
 
-    response.on('data', (chunk) => {
-      console.log(`BODY: ${chunk}`)
-    });
-  });
-  request.on('finish', () => {
+//     response.on('data', (chunk) => {
+//       console.log(`BODY: ${chunk}`)
+//     });
+//   });
+//   request.on('finish', () => {
 
-    console.log("finished call.")
-    event.sender.send("call_finished")
+//     console.log("finished call.")
+//     event.sender.send("call_finished")
 
-  });
-  request.on('abort', () => {
-    console.log('Request is Aborted')
-  });
-  request.on('error', (error) => {
-    console.log(`ERROR: ${JSON.stringify(error)}`)
-  });
-  request.on('close', (error) => {
-    console.log('Last Transaction has occured')
-  });
-  request.setHeader('Content-Type', 'application/json');
-  request.end();
+//   });
+//   request.on('abort', () => {
+//     console.log('Request is Aborted')
+//   });
+//   request.on('error', (error) => {
+//     console.log(`ERROR: ${JSON.stringify(error)}`)
+//   });
+//   request.on('close', (error) => {
+//     console.log('Last Transaction has occured')
+//   });
+//   request.setHeader('Content-Type', 'application/json');
+//   request.end();
 
+// });
+
+ipcMain.on("api_call", async (event) => {
+
+  const win = BrowserWindow.getFocusedWindow();
+  console.log(await download(win, "http://httpbin.org/image/png",{saveAs:"png"}));
+  
 });
 
 
