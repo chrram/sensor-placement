@@ -84,10 +84,14 @@ ipcMain.on("upload", (event, arg) => {
 
 // });
 
-ipcMain.on("api_call", async (event) => {
+ipcMain.on("api_call", async (event, arg) => {
 
   const win = BrowserWindow.getFocusedWindow();
-  console.log(await download(win, "http://httpbin.org/image/png",{saveAs:"png"}));
+
+  console.log(app.getPath('downloads'), arg,  "path");
+  await download(win, "http://httpbin.org/image/png",
+  {onCompleted: (info)=>  {event.sender.send("call_finished", info)},
+  filename: "optimized_" + arg.split(".")[0]+".png" })
   
 });
 
