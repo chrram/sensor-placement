@@ -3,8 +3,8 @@ const {download} = require('electron-dl');
 
 function createWindow() {
   const win = new BrowserWindow({
-    width: 700,
-    height: 400,
+    width: 1200,
+    height: 700,
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,
