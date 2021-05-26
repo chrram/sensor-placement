@@ -115,18 +115,30 @@
             $("#filename").html("Filename: " + localStorage.getItem('filepath').split("\\")[localStorage.getItem('filepath').split("\\").length -1]);
 
             // CODE THAT APPENDS THE PDF TO THE "pdf_display" DIV.
-            $( "#pdf_display" ).append( "<embed id='pdf' src='"+localStorage.getItem('filepath')+"#toolbar=0&navpanes=0&scrollbar=0' type='application/pdf' width='100%' height='500px' />" );
+            $( "#pdf_display" ).append( "<img id='pdf' src='"+localStorage.getItem('filepath')+"#toolbar=0&navpanes=0&scrollbar=0' width='100%' height='500px' />" );
 
             // CODE FOR WHEN THE USER HITS OPTIMIZATION BUTTON IN THE OPTIMIZATION UI.
             document.querySelector('#optimize').addEventListener('click', () => {
+
+               
+                
+             
 
                 const errors = checkUserInput()
 
                 // if ((!$("#optimizationButtons").is(":visible") && errors)||errors){
                 //     return $(".optimizationFrame").show()
                 // }
+                // console.log("filepatheee");
 
-                ipcRenderer.send("api_call", localStorage.getItem('filepath').split("\\")[localStorage.getItem('filepath').split("\\").length -1])
+                let angles = $( "#angles" ).val()
+                let areas = $( "#areas" ).val()
+                let heightCeiling = $( "#heightCeiling" ).val()
+                let heightDetection = $( "#heightDetection" ).val()
+                
+                // console.log(angles, areas, heightCeiling, heightDetection, "TEEEE");
+                    
+                ipcRenderer.send("api_call", localStorage.getItem('filepath'), angles, areas, heightCeiling, heightDetection)
 
                 // $("#optimizationButtons").hide("fast", function () {
                 //     $("#optimized_complete").show("slow", function () {
