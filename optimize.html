@@ -138,7 +138,7 @@
                 
                 // console.log(angles, areas, heightCeiling, heightDetection, "TEEEE");
                     
-                ipcRenderer.send("api_call", localStorage.getItem('filepath'), angles, areas, heightCeiling, heightDetection)
+                ipcRenderer.send("planParse", localStorage.getItem('filepath'), angles, areas, heightCeiling, heightDetection)
 
                 // $("#optimizationButtons").hide("fast", function () {
                 //     $("#optimized_complete").show("slow", function () {

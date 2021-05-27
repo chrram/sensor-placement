@@ -84,7 +84,7 @@ ipcMain.on("upload", (event, arg) => {
 
 // });
 
-ipcMain.on("api_call", async (event, filepath, angles, areas, heightCeiling, heightDetection) => {
+ipcMain.on("planParse", async (event, filepath, angles, areas, heightCeiling, heightDetection) => {
   const axios = require('axios');
   const FormData = require("form-data")
 
