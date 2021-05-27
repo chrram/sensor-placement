@@ -173,6 +173,37 @@ ipcMain.on("api_call", async (event, filepath, angles, areas, heightCeiling, hei
 });
 
 
+ipcMain.on("api_call", async (event, filepath, angles, areas, heightCeiling, heightDetection) => {
+  const axios = require('axios');
+  const FormData = require("form-data")
+
+  var formData = new FormData(filepath)
+  let fs = require ("fs")
+  fs.readFile(filepath, (err, data) =>{
+    if(err){console.log(err, "error handling fike");}
+    formData.append("floorplan",data ,filepath);
+  })
+
+  console.log(filepath, angles, areas, heightCeiling, heightDetection, "args in the back");
+  
+
+  axios.post('http://127.0.0.1:5000/plan/parse', formData, {
+    headers: {
+      'accept': 'application/json',
+      'Accept-Language': 'en-US,en;q=0.8',
+      'Content-Type': `multipart/form-data;`,
+    }
+  })
+    .then(res => {
+        console.log({res}, "success");
+    }).catch(err => {
+        console.error({err}, " rroeeererrror");
+        // console.error({err});
+    });
+  
+});
+
+
 // const menu = [
 //   {
 //     label: 'Files',
