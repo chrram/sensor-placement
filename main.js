@@ -33,7 +33,7 @@ ipcMain.on("upload", (event, arg) => {
 
   dialog.showOpenDialog(null, options
   ).then(result => {
-    console.log(result, "resss");
+    // console.log(result, "resss");
     return result.canceled || event.sender.send("upload_finished", result.filePaths)
 
   }).catch(err => {
@@ -88,15 +88,23 @@ ipcMain.on("api_call", async (event, filepath, angles, areas, heightCeiling, hei
   const axios = require('axios');
   const FormData = require("form-data")
 
-  var formData = new FormData(filepath)
+  var formData = new FormData()
+  console.log(formData)
   let fs = require ("fs")
-  fs.readFile(filepath, (err, data) =>{
-    if(err){console.log(err, "error handling fike");}
-    formData.append("floorplan",data ,filepath);
-  })
+  try {
+    const file = fs.readFileSync(filepath)
+    console.log(typeof file)
+    formData.append("floorplan", file)
+    console.log(formData)
+  } catch (err) {
+    console.error(err)
+  }
+  // formData.append(file)
+  console.log(formData)
 
-  console.log(filepath, angles, areas, heightCeiling, heightDetection, "args in the back");
-  
+
+  // console.log(filepath, angles, areas, heightCeiling, heightDetection, "args in the back");
+
 
   axios.post('http://127.0.0.1:5000/plan/parse', formData, {
     headers: {
@@ -108,7 +116,8 @@ ipcMain.on("api_call", async (event, filepath, angles, areas, heightCeiling, hei
     .then(res => {
         console.log({res}, "success");
     }).catch(err => {
-        console.error({err}, " rroeeererrror");
+        pass
+        // console.error({err}, " rroeeererrror");
         // console.error({err});
     });
   // axios({
@@ -140,7 +149,7 @@ ipcMain.on("api_call", async (event, filepath, angles, areas, heightCeiling, hei
   // request.write({"test": "test"})
 
   // request.on('response', (response) => {
-    
+
   //   console.log(`STATUS: ${response.statusCode}`);
   //   console.log(`HEADERS: ${JSON.stringify(response.headers)}`);
   //   response.on('data', (chunk) => {

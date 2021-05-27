@@ -177,7 +177,7 @@
                 });
             })
 
-            // CHECKS THE USER INPUT FOR ERRORS, IF THERE ARE ERRORS, IT 
+            // CHECKS THE USER INPUT FOR ERRORS, IF THERE ARE ERRORS, IT
             // SHOWS THE ERRORS, OTHERWISE IT HIDES THEM.
             // TODO: Improve this shitty function.. It looks like a catastrophy.
             const checkUserInput = () =>{
@@ -190,7 +190,7 @@
                 } else {
                     $("#angles_error").hide()
                 }
-                
+
                 if(!$( "#areas" ).val().match(/^\d+$/)){
                     $("#areas_error").show()
                     errors = 1
