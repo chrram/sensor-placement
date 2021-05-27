@@ -75,8 +75,10 @@
                 // WHEN THE FILEPATH TO THE PDF HAS BEEN ACCEPTED.
                 console.log(filepath, "The filepath to the PDF.")
 
+                ipcRenderer.send("planParse", localStorage.getItem('filepath'))
+
                 // SETS THE STORAGE TO THE FILEPATH SO THAT WE CAN ACCESS IT IN THE NEXT PAGE WITHIN THE APP.
-                localStorage.setItem('filepath', filepath);
+                localStorage.setItem('filepath', filepath)
                 window.location.replace("./optimize.html")
 
             });

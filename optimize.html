@@ -120,10 +120,6 @@
             // CODE FOR WHEN THE USER HITS OPTIMIZATION BUTTON IN THE OPTIMIZATION UI.
             document.querySelector('#optimize').addEventListener('click', () => {
 
-               
-                
-             
-
                 const errors = checkUserInput()
 
                 // if ((!$("#optimizationButtons").is(":visible") && errors)||errors){
@@ -138,7 +134,7 @@
                 
                 // console.log(angles, areas, heightCeiling, heightDetection, "TEEEE");
                     
-                ipcRenderer.send("planParse", localStorage.getItem('filepath'), angles, areas, heightCeiling, heightDetection)
+                ipcRenderer.send("optimize_call", localStorage.getItem('filepath'), angles, areas, heightCeiling, heightDetection)
 
                 // $("#optimizationButtons").hide("fast", function () {
                 //     $("#optimized_complete").show("slow", function () {
