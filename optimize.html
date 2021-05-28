@@ -29,7 +29,6 @@
             </div>
         </nav> -->
 
-        
 
         <!-- FRAME FOR DRAG AND DROP -->
         <div class="frame">
@@ -133,7 +132,8 @@
                 let heightDetection = $( "#heightDetection" ).val()
                 
                 // console.log(angles, areas, heightCeiling, heightDetection, "TEEEE");
-                    
+
+                // $('#optimize').hide();
                 ipcRenderer.send("optimize_call", localStorage.getItem('filepath'), angles, areas, heightCeiling, heightDetection)
 
                 // $("#optimizationButtons").hide("fast", function () {
@@ -141,6 +141,12 @@
                 //         console.log("TOGGLE DONE");
                 //     });
                 // });
+            })
+
+            ipcRenderer.on('optimizing_finished', function (event, data){
+                
+                console.log("OPTIMIZATION DATA FROM THE BACKEND.", data);
+                
             })
 
             ipcRenderer.on('call_finished', function (event, fileInfo) {
@@ -212,8 +218,6 @@
             }
 
         });
-
-
 
     </script>
 </body>
