@@ -110,6 +110,8 @@
             const { ipcRenderer, remote, dialog } = require('electron')
             const $ = require("jquery")
 
+            console.log(localStorage.getItem('image_data'), "imageee data in the optimize");
+
             // CODE THAT GETS THE FILENAME OF THE PDF AND CHANGES THE #filename TO THIS FILENAME.
             $("#filename").html("Filename: " + localStorage.getItem('filepath').split("\\")[localStorage.getItem('filepath').split("\\").length -1]);
 
@@ -131,16 +133,7 @@
                 let heightCeiling = $( "#heightCeiling" ).val()
                 let heightDetection = $( "#heightDetection" ).val()
                 
-                // console.log(angles, areas, heightCeiling, heightDetection, "TEEEE");
-
-                // $('#optimize').hide();
-                ipcRenderer.send("optimize_call", localStorage.getItem('filepath'), angles, areas, heightCeiling, heightDetection)
-
-                // $("#optimizationButtons").hide("fast", function () {
-                //     $("#optimized_complete").show("slow", function () {
-                //         console.log("TOGGLE DONE");
-                //     });
-                // });
+                ipcRenderer.send("optimize_call", localStorage.getItem('image_data'), angles, areas, heightCeiling, heightDetection)
             })
 
             ipcRenderer.on('optimizing_finished', function (event, data){
@@ -152,6 +145,8 @@
             ipcRenderer.on('call_finished', function (event, fileInfo) {
                 
                 console.log($( "#pdf" ), "fileInfo");
+                
+
 
                 $("#pdf_display").empty().append( "<img id='optimized_pdf' src='"+fileInfo.path+"' />")
 

@@ -15,21 +15,6 @@
 <body>
 
     <div style="background-color:black; height:100%;">
-        <!-- NAVBAR -->
-        <!-- <nav class="navbar navbar-expand-md ">
-            <div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
-                <ul class="navbar-nav mr-auto">
-                    <img src="./logo.png" width="40" height="40" />
-                    <li class="nav-item active">
-                        <a class="nav-link" style="color:white;" href="#">Sensor Optimization</a>
-                    </li>
-                </ul>
-            </div>
-      
-            <div class="navbar w-100 order-3 ">
-
-            </div>
-        </nav> -->
         <div class="sidenav">
             <img src="logo.png" />
 
@@ -45,8 +30,7 @@
                 <h3>Upload your plan to optimize it.</h3>
                 <button id="upload" class="specialButton" type="button" class="btn btn-primary">Upload Plan</button>
                 <p style="font-weight:bold;">Format: JPG only</p>
-                <!-- <button id="upload" type="button" class="btn btn-primary"><a href="./optimize.html">Browse File</a></button> -->
-                
+
             </div>
         </div>
 
@@ -67,16 +51,18 @@
             ipcRenderer.on('upload_finished', function (event, filepath) {
 
                 // WHEN THE FILEPATH TO THE PDF HAS BEEN ACCEPTED.
-                console.log(filepath, "The filepath to the PDF.")
-
-                ipcRenderer.send("planParse", localStorage.getItem('filepath'))
-
                 // SETS THE STORAGE TO THE FILEPATH SO THAT WE CAN ACCESS IT IN THE NEXT PAGE WITHIN THE APP.
+                
                 localStorage.setItem('filepath', filepath)
-                window.location.replace("./optimize.html")
-
+                ipcRenderer.send("planParse", localStorage.getItem('filepath'))
             });
         
+            ipcRenderer.on('image_parsed', function(event, imageData){
+
+                localStorage.setItem('image_data', imageData)
+                window.location.replace("./optimize.html")
+            })
+
         });
 
     </script>

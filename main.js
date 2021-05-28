@@ -97,48 +97,48 @@ ipcMain.on("optimize_call", async (event, sensor_field_of_view, areas, ceiling_h
 
 ipcMain.on("planParse", async (event, filepath) => {
 
+  const loading = new BrowserWindow({
+    width: 1200,
+    height: 700,
+    parent: BrowserWindow.getFocusedWindow(),
+    modal: true,
+    show: false,
+    webPreferences: {
+      nodeIntegration: true,
+      contextIsolation: false,
+      center: true,
+      resizable: true,
+      frame: true,
+      transparent: false,
+    }
+  })
 
-  // const form = new FormData();
-  //  const stream = fs.createReadStream(filepath);
+  var html = [
+    "<body style='background-color:black; transform: translateX(-50%) translateY(-50%); position: absolute;top: 50%;left: 50%;'>",
+    "<h1 style='color:white;'>PARSING THE IMAGE! PLEASE WAIT!</h1>",
+    "</body>",
+  ].join("");
+  loading.loadURL("data:text/html;charset=utf-8," + encodeURI(html))
+  loading.show()
 
-  // form.append('image', stream);
 
-  // console.log(form, "FORM DATAAAA");
-  // // In Node.js environment you need to set boundary in the header field 'Content-Type' by calling method `getHeaders`
-  // const formHeaders = form.getHeaders();
-  // // console.log(formHeaders, "formHEADERS");
-  // axios.post('http://127.0.0.1:5000/plan/parse', form, {
-  //   headers: {
-  //     ...formHeaders,
-  //   },
-  // })
-  // .then(response => {
+  const formData = new FormData();
+  const stream = fs.createReadStream(filepath);
+  formData.append('floorplan', stream);
 
-  //   console.log(response, "response")
-  // })
-  // .catch(error => {
-  //   // console.log(error, "errorrrr");
-  //   // app.quit()
-  // })
+  axios.post('http://127.0.0.1:5000/plan/parse', formData, {
+    headers: formData.getHeaders()
+  })
+  .then(response => {
+    // console.log(response, "response")
+    loading.hide()
+    event.sender.send("image_parsed", response.data.rooms)
 
-  // console.log("formDatasss",formData, "tetst");
-  //   axios.post('http://127.0.0.1:5000/plan/parse', formData, {
-  //     // headers: {
-  //     //   'accept': 'application/json',
-  //     //   'Accept-Language': 'en-US,en;q=0.8',
-  //     //   'Content-Type': `multipart/form-data;`,
-  //     // }
-
-  //     headers: formData.getHeaders()
-  //   })
-  //     .then(res => {
-  //         console.log({res}, "success");
-  //     }).catch(err => {
-  //       // console.log(err, "error");
-  //         app.quit()
-  //     });
-
-  // });
+  })
+  .catch(error => {
+    console.log(error, "error");
+    app.quit()
+  })
 })
 
 app.whenReady().then(createWindow)
