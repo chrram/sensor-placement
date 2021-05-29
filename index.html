@@ -60,8 +60,8 @@
         
             ipcRenderer.on('image_parsed', function(event, imageData){
 
-                
-                localStorage.setItem('image_data', imageData)
+                console.log(imageData,"data in the parse");
+                localStorage.setItem('image_data', JSON.stringify(imageData))
                 window.location.replace("./optimize.html")
             })
 
