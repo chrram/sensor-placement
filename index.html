@@ -55,10 +55,12 @@
                 
                 localStorage.setItem('filepath', filepath)
                 ipcRenderer.send("planParse", localStorage.getItem('filepath'))
+
             });
         
             ipcRenderer.on('image_parsed', function(event, imageData){
 
+                
                 localStorage.setItem('image_data', imageData)
                 window.location.replace("./optimize.html")
             })

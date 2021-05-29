@@ -13,7 +13,7 @@
 
 <body style="background-color: black;">
 
-    <div style="background-color:black; height:580px;">
+    <div style="background-color:black;">
 
         <!-- NAVBAR -->
         <!-- <nav class="navbar navbar-expand-md ">
@@ -34,7 +34,7 @@
         <div class="frame">
             <p id="filename" style="font-weight:bold; margin-left:30px; text-align:left;">Filename: </p>
             <!-- WHERE WE SHOW THE PDF. -->
-            <div id="pdf_display">
+            <div style='position:relative;' id="pdf_display">
                 
             </div>
             
@@ -116,7 +116,7 @@
             $("#filename").html("Filename: " + localStorage.getItem('filepath').split("\\")[localStorage.getItem('filepath').split("\\").length -1]);
 
             // CODE THAT APPENDS THE PDF TO THE "pdf_display" DIV.
-            $( "#pdf_display" ).append( "<img id='pdf' src='"+localStorage.getItem('filepath')+"#toolbar=0&navpanes=0&scrollbar=0' width='100%' height='500px' />" );
+            $( "#pdf_display" ).append( "<img id='pdf' src='"+localStorage.getItem('filepath')+"#toolbar=0&navpanes=0&scrollbar=0' />" );
 
             // CODE FOR WHEN THE USER HITS OPTIMIZATION BUTTON IN THE OPTIMIZATION UI.
             document.querySelector('#optimize').addEventListener('click', () => {
@@ -139,6 +139,21 @@
             ipcRenderer.on('optimizing_finished', function (event, data){
                 
                 console.log("OPTIMIZATION DATA FROM THE BACKEND.", data);
+
+
+                for(let i = 0; i < data.sensors.length; i++)
+                {
+
+                    console.log(data.sensors[i][0][0], "x");
+                    console.log(data.sensors[i][0][1], "y");
+
+                    var div = document.createElement('div');
+                    div.className = 'dot';
+                    div.style.left = data.sensors[i][0][0] + 'px';
+                    div.style.top = data.sensors[i][0][1] + 'px';
+                    document.getElementById('pdf_display').appendChild(div);
+                }  
+                // THIS WHERE WE NEED TO DRAW THE COORDINATES ON THE PICTURE
                 
             })
 
@@ -146,8 +161,6 @@
                 
                 console.log($( "#pdf" ), "fileInfo");
                 
-
-
                 $("#pdf_display").empty().append( "<img id='optimized_pdf' src='"+fileInfo.path+"' />")
 
             });
