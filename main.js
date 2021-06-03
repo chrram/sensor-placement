@@ -14,12 +14,12 @@ function createWindow() {
       contextIsolation: false,
     }
   })
-
+  win.setFullScreen(true)
   // Load the index.html of the app.
   win.loadFile('./index.html')
 
   // Open the DevTools.
-  win.webContents.openDevTools()
+  // win.webContents.openDevTools()
 }
 
 ipcMain.on("upload", (event, arg) => {
@@ -63,6 +63,8 @@ ipcMain.on("optimize_call", async (event,rooms, shape, sensor_field_of_view, cei
       transparent: false,
     }
   })
+
+  loading.setFullScreen(true)
 
   var html = [
     "<body style='background-color:black; transform: translateX(-50%) translateY(-50%); position: absolute;top: 50%;left: 50%;'>",
@@ -122,7 +124,7 @@ ipcMain.on("planParse", async (event, filepath) => {
   ].join("");
   loading.loadURL("data:text/html;charset=utf-8," + encodeURI(html))
   loading.show()
-
+  loading.setFullScreen(true)
 
   const formData = new FormData();
   const stream = fs.createReadStream(filepath);
